@@ -3,7 +3,7 @@ import torch.nn as nn
 from torchvision.models import inception_v3, Inception_V3_Weights
 
 
-def initialize_model(model_name, num_classes, feature_extract, weights, use_pretrained=True):
+def initialize_vision_model(model_name, num_classes, feature_extract, weights, use_pretrained=True):
     model_ft = None
     input_size = 0
     
