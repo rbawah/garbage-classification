@@ -52,11 +52,17 @@ def initialize_vision_model(model_name, num_classes, feature_extract, use_pretra
         #Replace the existing linear classifer with 1000 output classes with
         #number of classifiers in garbage-classification-project.
         num_ftrs = model_ft.classifier[1].in_features
-        model_ft.classifier[1] = nn.Linear(num_ftrs, num_classes)
+        out_features = model_ft.classifier[1].out_features
+        #Leave the classification to the joint classifier, so multiply by identity.
+        #Otherwise, run the fully connected layer as usual.
+        if multimodal:
+            model_ft.classifier[1] = nn.Identity()
+        else:
+            model_ft.classifier[1] = nn.Linear(num_ftrs, num_classes)
         input_size = 600
         print("Initializing EfficientNetB7 with weights=EfficientNet_B7_Weights.DEFAULT...")
         print(f'Input size = {input_size}')
-        print(f'out_features = {out_features}')
+        # print(f'out_features = {out_features}')
 
 
     else:
