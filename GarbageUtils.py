@@ -25,6 +25,14 @@ from torchvision.datasets.folder import default_loader, IMG_EXTENSIONS
 # initialize BertTokenizer    
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
+def append_value(dict_obj, key, value):
+    if key in dict_obj:
+        if not isinstance(dict_obj[key], list):
+            dict_obj[key] = [dict_obj[key]]
+        dict_obj[key].append(value)
+    else:
+        dict_obj[key] = [value]
+
 class GarbageRandomSplit(Dataset):
     def __init__(self, dataset, test_size = 0.2, val_size = None, transforms = None):
         self.dataset = dataset
