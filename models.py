@@ -1,9 +1,10 @@
 import torch
 import torch.nn as nn
-from torchvision.models import inception_v3, Inception_V3_Weights
+from torchvision.models import (inception_v3, 
+                                Inception_V3_Weights,
+                                efficientnet_b7, 
+                                EfficientNet_B7_Weights)
 from transformers import BertTokenizer, BertForSequenceClassification
-from torchvision.models import efficientnet_b7, EfficientNet_B7_Weights
-
 
 
 def set_parameter_requires_grad(model, feature_extracting):
@@ -12,7 +13,7 @@ def set_parameter_requires_grad(model, feature_extracting):
             param.requires_grad = False
 
 
-def initialize_vision_model(model_name, num_classes, feature_extract, use_pretrained=True, multimodal=True):
+def initialize_vision_model(model_name, num_classes, feature_extract, multimodal=True):
     model_ft = None
     input_size = 0
     
@@ -69,7 +70,7 @@ def initialize_vision_model(model_name, num_classes, feature_extract, use_pretra
         print("Invalid Model Name!")
         exit()
         
-    return model_ft, input_size, out_features
+    return model_ft, input_size
 
 
 def initialize_language_model(model_name, num_classes, multimodal=False):
