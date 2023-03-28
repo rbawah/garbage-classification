@@ -5,6 +5,8 @@ from torchvision.models import (inception_v3,
                                 efficientnet_b7, 
                                 EfficientNet_B7_Weights)
 from transformers import BertTokenizer, BertForSequenceClassification
+from torchvision.models import efficientnet_b7, EfficientNet_B7_Weights
+
 
 
 def set_parameter_requires_grad(model, feature_extracting):
@@ -62,6 +64,31 @@ def initialize_vision_model(model_name, num_classes, feature_extract, multimodal
             model_ft.classifier[1] = nn.Linear(num_ftrs, num_classes)
         input_size = 600
         print("Initializing EfficientNetB7 with weights=EfficientNet_B7_Weights.DEFAULT...")
+        print(f'Input size = {input_size}')
+        # print(f'out_features = {out_features}')
+    
+    elif model_name == "mobilenet_v2":
+        """
+        MobileNetV2 model
+        Image size (224, 224)
+        """
+
+        #Set model with weights and if we're freezing the model
+        model_ft = mobilenet_v2(weights=MobileNet_V2_Weights.DEFAULT)
+        set_parameter_requires_grad(model_ft, feature_extract)
+
+        #Replace the existing linear classifer with 1000 output classes with
+        #number of classifiers in garbage-classification-project.
+        num_ftrs = model_ft.classifier[1].in_features
+        out_features = model_ft.classifier[1].out_features
+        #Leave the classification to the joint classifier, so multiply by identity.
+        #Otherwise, run the fully connected layer as usual.
+        if multimodal:
+            model_ft.classifier[1] = nn.Identity()
+        else:
+            model_ft.classifier[1] = nn.Linear(num_ftrs, num_classes)
+        input_size = 224
+        print("Initializing MobileNetV2 with weights=MobileNet_V2_Weights.DEFAULT ...")
         print(f'Input size = {input_size}')
         # print(f'out_features = {out_features}')
 
