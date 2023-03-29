@@ -3,10 +3,10 @@ import torch.nn as nn
 from torchvision.models import (inception_v3, 
                                 Inception_V3_Weights,
                                 efficientnet_b7, 
-                                EfficientNet_B7_Weights)
+                                EfficientNet_B7_Weights, 
+                                mobilenet_v2, 
+                                MobileNet_V2_Weights)
 from transformers import BertTokenizer, BertForSequenceClassification
-from torchvision.models import efficientnet_b7, EfficientNet_B7_Weights
-
 
 
 def set_parameter_requires_grad(model, feature_extracting):
