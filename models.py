@@ -91,8 +91,6 @@ def initialize_vision_model(model_name, num_classes, feature_extract, multimodal
         print("Initializing MobileNetV2 with weights=MobileNet_V2_Weights.DEFAULT ...")
         print(f'Input size = {input_size}')
         # print(f'out_features = {out_features}')
-
-
     else:
         print("Invalid Model Name!")
         exit()
