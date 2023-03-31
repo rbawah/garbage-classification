@@ -2,8 +2,6 @@ import torch
 import torch.nn as nn
 from torchvision.models import (inception_v3, 
                                 Inception_V3_Weights,
-                                efficientnet_b7, 
-                                EfficientNet_B7_Weights, 
                                 mobilenet_v2, 
                                 MobileNet_V2_Weights)
 from transformers import BertTokenizer, BertForSequenceClassification
@@ -42,30 +40,6 @@ def initialize_vision_model(model_name, num_classes, feature_extract, multimodal
         print(f'Input size = {input_size}')
         # print(f'out_features = {out_features}')
 
-    elif model_name == "efficientnet_b7":
-        ######################
-        #EfficientNet B7 model
-        #Image size (600, 600)
-        ######################
-
-        #Set model with weights and if we're freezing the model
-        model_ft = efficientnet_b7(weights=EfficientNet_B7_Weights.DEFAULT)
-        set_parameter_requires_grad(model_ft, feature_extract)
-
-        #Replace the existing linear classifer with 1000 output classes with
-        #number of classifiers in garbage-classification-project.
-        num_ftrs = model_ft.classifier[1].in_features
-        out_features = model_ft.classifier[1].out_features
-        #Leave the classification to the joint classifier, so multiply by identity.
-        #Otherwise, run the fully connected layer as usual.
-        if multimodal:
-            model_ft.classifier[1] = nn.Identity()
-        else:
-            model_ft.classifier[1] = nn.Linear(num_ftrs, num_classes)
-        input_size = 600
-        print("Initializing EfficientNetB7 with weights=EfficientNet_B7_Weights.DEFAULT...")
-        print(f'Input size = {input_size}')
-        # print(f'out_features = {out_features}')
     
     elif model_name == "mobilenet_v2":
         """
