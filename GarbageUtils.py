@@ -6,19 +6,11 @@ import re
 from collections import Counter
 import time
 import torchvision
-from torchvision import datasets, transforms
+from torchvision import datasets
 from typing import Any, Callable, cast, Dict, List, Optional, Tuple, Union
 import random
-from transformers import BertTokenizer, BertForSequenceClassification
-
-from torch.utils.data import (TensorDataset, 
-                              Dataset, 
-                              Subset,
-                              random_split, 
-                              DataLoader, 
-                              RandomSampler, 
-                              SequentialSampler, 
-                              DataLoader)
+from transformers import BertTokenizer
+from torch.utils.data import Dataset
 from typing import Any, Callable, cast, Dict, List, Optional, Tuple, Union
 from torchvision.datasets.folder import default_loader, IMG_EXTENSIONS
 
@@ -33,42 +25,7 @@ def append_value(dict_obj, key, value):
     else:
         dict_obj[key] = [value]
 
-class GarbageRandomSplit(Dataset):
-    def __init__(self, dataset, test_size = 0.2, val_size = None, transforms = None):
-        self.dataset = dataset
-        self.data_size = len(self.dataset)
-        self.tranforms = transforms
-        self.test_size = test_size
-        self.val_size = test_size if val_size is None else val_size
-        self.train_size = 1 - (self.test_size + self.val_size)
 
-        self.train_set = self.dataset[0 : self.data_size * self.train_size]
-        self.val_set = self.dataset[self.data_size * self.train_size : self.data_size * (self.train_size+self.val_size)]
-        self.test_set = self.dataset[self.data_size * (self.train_size+self.val_size): ]
-
-    def __len__(self):
-        return {
-            "train": len(self.train_set),
-            "val": len(self.val_set),
-            "test": len(self.test_set),
-            "total": len(self.dataset)
-            }
-
-    def __getitem__(self, idx):
-        # if self.tranforms:
-        return self.dataset[idx]
-
-    def get_datasets(self):
-        return self.train_set, self.val_set, self.test_set
-
-    def get_train_set(self):
-        return self.train_set
-    
-    def get_test_set(self):
-        return self.test_set
-
-    def get_val_set(self):
-        return self.val_set
 
 # use random_split to split data into train, val, and test sets
 def split_dataset(dataset, test_size = 0.2, val_size = None):
