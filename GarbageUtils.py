@@ -6,19 +6,11 @@ import re
 from collections import Counter
 import time
 import torchvision
-from torchvision import datasets, transforms
+from torchvision import datasets
 from typing import Any, Callable, cast, Dict, List, Optional, Tuple, Union
 import random
-from transformers import BertTokenizer, BertForSequenceClassification
-
-from torch.utils.data import (TensorDataset, 
-                              Dataset, 
-                              Subset,
-                              random_split, 
-                              DataLoader, 
-                              RandomSampler, 
-                              SequentialSampler, 
-                              DataLoader)
+from transformers import BertTokenizer
+from torch.utils.data import Dataset
 from typing import Any, Callable, cast, Dict, List, Optional, Tuple, Union
 from torchvision.datasets.folder import default_loader, IMG_EXTENSIONS
 
